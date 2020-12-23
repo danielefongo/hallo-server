@@ -22,6 +22,8 @@ function generateSocket(server) {
     socket.on('hallo_answer', (event) => socket.to(event.peerId).emit('hallo_answer', socket.id, event.sdp))
     socket.on('hallo_candidate', (event) => socket.to(event.peerId).emit('hallo_candidate', socket.id, event))
   })
+
+  return io
 }
 
 exports.use = (server) => generateSocket(server)

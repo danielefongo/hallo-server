@@ -11,5 +11,5 @@ const halloServer = require('hallo-server')
 ...
 */
 
-halloServer.use(server)
+const io = halloServer.use(server)
 ```
