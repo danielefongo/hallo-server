@@ -7,7 +7,12 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "danielefongo",
-  "license": "ISC",
+  "license": "MIT",
+  "homepage": "https://github.com/danielefongo/hallo-server",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielefongo/hallo-server.git"
+  },
   "dependencies": {
     "socket.io": "^3.0.4"
   }
