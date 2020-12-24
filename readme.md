@@ -7,9 +7,6 @@ Simple webrtc signalling server for express.
 ```javascript
 const halloServer = require('hallo-server')
 
-/*
-...
-*/
-
+// Start hallo-server and return io connection (socket.io)
 const io = halloServer.use(server)
 ```
