@@ -33,6 +33,7 @@ function generateSocket(server) {
     socket.on('hallo_offer', (event) => socket.toPeer(event.peerId, 'hallo_offer', event))
     socket.on('hallo_answer', (event) => socket.toPeer(event.peerId, 'hallo_answer', event))
     socket.on('hallo_candidate', (event) => socket.toPeer(event.peerId, 'hallo_candidate', event))
+    socket.on('disconnect', () => rooms.leave(socket.room, socket.username, () => socket.toRoom('hallo_left')))
   })
 
   return io
