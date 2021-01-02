@@ -9,6 +9,7 @@ function generateSocket(server) {
     socket.on('hallo_join', (userId, roomId) => {
       socket.username = userId || socket.id
       socket.room = roomId
+      socket.joined = false
       socket.describe = () => { return {id: socket.id, username: socket.username, room: socket.room} }
       socket.toRoom = (event, ...args) => socket.broadcast.to(roomId).emit(event, socket.describe(), ...args)
       socket.toPeer = (peerId, event, ...args) => socket.to(peerId).emit(event, socket.describe(), ...args)
@@ -17,10 +18,12 @@ function generateSocket(server) {
       rooms.join(socket.room, socket.username,
         () => {
           socket.join(roomId)
+          socket.joined = true
           socket.toSelf('hallo_created')
         },
         () => {
           socket.join(roomId)
+          socket.joined = true
           socket.toSelf('hallo_joined')
         },
         () => {
@@ -34,7 +37,11 @@ function generateSocket(server) {
     socket.on('hallo_offer', (event) => socket.toPeer(event.peerId, 'hallo_offer', event))
     socket.on('hallo_answer', (event) => socket.toPeer(event.peerId, 'hallo_answer', event))
     socket.on('hallo_candidate', (event) => socket.toPeer(event.peerId, 'hallo_candidate', event))
-    socket.on('disconnect', () => rooms.leave(socket.room, socket.username, () => socket.toRoom('hallo_left')))
+    socket.on('disconnect', () => {
+      if(!socket.joined) return
+      socket.joined = false
+      rooms.leave(socket.room, socket.username, () => socket.toRoom('hallo_left'))
+    })
   })
 
   return io
